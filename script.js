@@ -1,8 +1,8 @@
 const options = {
     key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
     verbose: true,
-    lat: 14.034,
-    lon: 100.361,
+    lat: 13.9918,
+    lon: 110.6035,
     zoom: 5,
 };
 
