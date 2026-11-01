@@ -104,5 +104,6 @@ windyInit(options, windyAPI => {
         btn.disabled = false;
         btn.innerText = 'Start Analyzer';
 		alert("Analysis Complete");
-	};	
+	};
+	window.addEventListener('message', ...)
 });
