@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+        />
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script src="https://api4.windy.com/assets/libBoot.js"></script>
+
+		<style>
+			#windy {
+				width: 100%;
+				height: 700px;
+				background-color: transparent !important;
+			}
+
+			/* ซ่อน UI ของ Windy ทั้งหมด (โลโก้, ปุ่มควบคุม, คอนเทนเนอร์) */
+			#logo-wrapper, 
+			#logo,
+			.leaflet-control-container, 
+			.leaflet-control,
+			.w-logo, 
+			#search-container,
+			#mobile-ovr-select, 
+			#embed-zoom, 
+			.zoom-ctrl { 
+				display: none !important; 
+			}
+
+			/* ซ่อนองค์ประกอบของ Leaflet ที่ไม่จำเป็น */
+			.leaflet-marker-pane, 
+			.leaflet-tooltip-pane, 
+			.leaflet-popup-pane,
+			.leaflet-shadow-pane { 
+				display: none !important; 
+			}
+
+			/* จัดการเลเยอร์แผนที่และ Particle */
+			.basemap-layer { display: block !important; }
+
+			.leaflet-container {
+				/*background-color: rgba(155, 155, 155, 0.5}
+			}
+			.overlay-layer { 
+				display: block !important; 
+				opacity: 0.25 !important; /* เพิ่มความเข้มเพื่อให้เห็นสี Convergence ชัด */
+			}
+			.particles-layer {
+				filter: brightness(1.5) contrast(1.2) !important; /* ปรับเส้นลมให้เด่น */
+			}
+			.level-switcher {
+				position: fixed; /* เปลี่ยนจาก absolute เป็น fixed */
+				top: 20px !important;    /* บังคับให้อยู่ห่างจากขอบบน 20px */
+				left: 20px !important;
+				z-index: 9999 !important; /* บังคับให้อยู่ชั้นบนสุด */
+				display: flex;
+				gap: 10px;
+				background: rgba(0, 0, 0, 0.7); /* ปรับให้เข้มขึ้นเพื่อให้เห็นชัด */
+				padding: 10px;
+				border-radius: 8px;
+				border: 5px solid #444;
+			}
+			.level-switcher button {
+				padding: 8px 12px;
+				cursor: pointer;
+				background: #333;
+				color: white;
+				border: 1px solid #555;
+				border-radius: 4px;
+				font-size: 14px;
+			}
+
+			.level-switcher button:hover {
+				background: #555;
+			}
+
+			.level-switcher button:active {
+				background: #0074d9; /* สีฟ้าเมื่อกดเลือก */
+			}			
+		</style>
+    </head>
+    <body>
+		<div class="level-switcher">
+			<button onclick="checkStagnation(900)">900h</button>
+			<button onclick="checkStagnation(850)">850h</button>
+			<button onclick="checkStagnation(500)">500h</button>
+			<button onclick="checkStagnation(200)">200h</button>
+			<button id="stagnation-btn" onclick="runStagnationAnalyzer()" style="background: #e67e22;">
+				Start Analyzer
+			</button>
+		</div>
+        <div id="windy"></div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
