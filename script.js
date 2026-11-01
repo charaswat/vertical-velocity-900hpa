@@ -77,7 +77,7 @@ windyInit(options, windyAPI => {
 
     // 3. การตั้งค่าเลเยอร์เริ่มต้น
     store.set('overlay', 'vvel');
-    store.set('level', '850h');
+    store.set('level', '900h');
     store.set('particlesAnim', 'slow');
 
     // 4. ฟังก์ชันสำหรับปุ่มกด (Global Functions)
