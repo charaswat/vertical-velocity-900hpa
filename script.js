@@ -6,6 +6,24 @@ const options = {
     zoom: 5,
 };
 
+async function getWeatherData(lat, lon, env) {
+  const apiKey = env.WINDY_API_KEY; // ดึงจาก Environment Variable ที่เราตั้งไว้
+  const url = `https://api.windy.com/api/point-forecast/v2`;
+  
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      lat: lat,
+      lon: lon,
+      model: "gfs",
+      parameters: ["temp", "precip", "wind"],
+      key: apiKey
+    })
+  });
+  return await response.json();
+};
+
 windyInit(options, windyAPI => {
     const { map, store } = windyAPI;
     let isDrawingMode = false;
