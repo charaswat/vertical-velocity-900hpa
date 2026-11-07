@@ -123,4 +123,21 @@ windyInit(options, windyAPI => {
         btn.innerText = 'Start Analyzer';
 		alert("Analysis Complete");
 	};
+	// วางโค้ดนี้ในเลเยอร์บรรยากาศ (900, 850, 500, 200 hPa)
+	window.addEventListener('message', function(event) {
+		// รับข้อมูลพิกัดจาก Dashboard หลัก
+		if (event.data.type === 'MAP_SYNC') {
+			const { lat, lon, zoom } = event.data;
+			
+			// ถ้าเลเยอร์นี้ใช้ Leaflet (ตัวแปร L.map)
+			if (typeof map !== 'undefined') {
+				map.setView([lat, lon], zoom, { animate: false });
+			} 
+			// หรือถ้าเลเยอร์นี้เป็น URL Redirect ให้เปลี่ยนพิกัดผ่าน URL
+			else {
+				// ปรับ logic ตามลักษณะการแสดงผลของ Worker คุณ
+				console.log("Syncing to:", lat, lon, zoom);
+			}
+		}
+	});
 });
