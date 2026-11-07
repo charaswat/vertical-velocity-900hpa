@@ -1,6 +1,6 @@
 const options = {
     key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
-    verbose: true,
+    verbose: false,
     lat: 13.9918,
     lon: 110.6035,
     zoom: 5,
@@ -23,7 +23,7 @@ async function getWeatherData(lat, lon, env) {
   });
   return await response.json();
 };
-
+    //key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
 windyInit(options, windyAPI => {
     const { map, store } = windyAPI;
     let isDrawingMode = false;
