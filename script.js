@@ -1,6 +1,5 @@
 const options = {
-    key: 'AGB3KUsGdiI2YFu02Pcqd4FvheDmMmpU',
-	//ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb
+    key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
     verbose: false,
     lat: 13.9918,
     lon: 110.6035,
@@ -9,7 +8,7 @@ const options = {
 
 async function getWeatherData(lat, lon, env) {
   const apiKey = env.WINDY_API_KEY; // ดึงจาก Environment Variable ที่เราตั้งไว้
-  const url = `https://api.windy.com/api/point-forecast/v2`;
+  const url = `https://api.windy.com/api/map-forecast/v2`;
   
   const response = await fetch(url, {
     method: 'POST',
