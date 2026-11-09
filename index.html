@@ -35,47 +35,10 @@
 			}
 			.particles-layer {
 				filter: brightness(1.5) contrast(1.2) !important; /* ปรับเส้นลมให้เด่น */
-			}
-			.level-switcher {
-				position: fixed; /* เปลี่ยนจาก absolute เป็น fixed */
-				top: 20px !important;    /* บังคับให้อยู่ห่างจากขอบบน 20px */
-				left: 20px !important;
-				z-index: 9999 !important; /* บังคับให้อยู่ชั้นบนสุด */
-				display: flex;
-				gap: 10px;
-				background: rgba(0, 0, 0, 0.7); /* ปรับให้เข้มขึ้นเพื่อให้เห็นชัด */
-				padding: 10px;
-				border-radius: 8px;
-				border: 5px solid #444;
-			}
-			.level-switcher button {
-				padding: 8px 12px;
-				cursor: pointer;
-				background: #333;
-				color: white;
-				border: 1px solid #555;
-				border-radius: 4px;
-				font-size: 14px;
-			}
-
-			.level-switcher button:hover {
-				background: #555;
-			}
-
-			.level-switcher button:active {
-				background: #0074d9; /* สีฟ้าเมื่อกดเลือก */
-			}			
+			}	
 		</style>
     </head>
     <body>
-		<div class="level-switcher">
-			<button onclick="checkStagnation(900)">900h</button>
-			<button onclick="checkStagnation(850)">850h</button>
-			<button onclick="checkStagnation(500)">500h</button>
-			<button onclick="checkStagnation(200)">200h</button>
-			<button id="stagnation-btn" onclick="runStagnationAnalyzer()" style="background: #e67e22;">
-				Start Analyzer
-			</button>
 		</div>
         <div id="windy"></div>
 
