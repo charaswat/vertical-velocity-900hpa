@@ -141,3 +141,29 @@ windyInit(options, windyAPI => {
 		}
 	});
 });
+// โค้ดภายในแต่ละ Layer (Iframe)
+windyInit(options, windyAPI => {
+    const { map } = windyAPI;
+
+    // 1. ส่งพิกัดออกเมื่อตัวเองขยับ
+    map.on('moveend zoomend', () => {
+        // ส่งเฉพาะเมื่อ User เป็นคนลากเอง (มี Focus)
+        if (document.hasFocus()) {
+            const center = map.getCenter();
+            window.parent.postMessage({
+                type: 'LAYER_MOVE',
+                lat: center.lat,
+                lon: center.lng,
+                zoom: map.getZoom()
+            }, '*');
+        }
+    });
+
+    // 2. รับพิกัดจากหน้าหลักเพื่อปรับตามเพื่อน
+    window.addEventListener('message', (event) => {
+        if (event.data.type === 'MAP_SYNC') {
+            const { lat, lon, zoom } = event.data;
+            map.setView([lat, lon], zoom, { animate: true });
+        }
+    });
+});
