@@ -146,19 +146,28 @@ windyInit(options, windyAPI => {
     const { map } = windyAPI;
 
 	    // 1. รับคำสั่งเปลี่ยนพิกัดจากไฟล์แม่
-	window.addEventListener('message', (event) => {
-	    const { type, center, zoom } = event.data;
-	    if (type === 'SET_VIEW') {
-	        map.setView(center, zoom, { animate: false });
+
+	let ticking = false;
+	
+	map.on('move', () => {
+	    if (!ticking) {
+	        window.requestAnimationFrame(() => {
+	            window.parent.postMessage({
+	                type: 'MAP_MOVE',
+	                center: map.getCenter(),
+	                zoom: map.getZoom()
+	            }, '*');
+	            ticking = false;
+	        });
+	        ticking = true;
 	    }
 	});
 	
-	// 2. เมื่อมีการ Move หรือ Zoom ในแผนที่นี้ ให้ส่งพิกัดออกไปบอกไฟล์แม่
-	map.on('moveend zoomend', () => {
-	    window.parent.postMessage({
-	        type: 'MAP_MOVE',
-	        center: map.getCenter(),
-	        zoom: map.getZoom()
-	    }, '*');
+	window.addEventListener('message', (event) => {
+	    const { type, center, zoom } = event.data;
+	    if (type === 'SET_VIEW') {
+	        // ปิด animation เพื่อความเร็วสูงสุดในการซิงค์
+	        map.setView(center, zoom, { animate: false });
+	    }
 	});
 });
