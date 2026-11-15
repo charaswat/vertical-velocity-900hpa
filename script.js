@@ -144,29 +144,36 @@ windyInit(options, windyAPI => {
 // โค้ดภายในแต่ละ Layer (Iframe)
 windyInit(options, windyAPI => {
     const { map } = windyAPI;
-
-	    // 1. รับคำสั่งเปลี่ยนพิกัดจากไฟล์แม่
-
-	let ticking = false;
 	
+	// ฟังก์ชันส่งพิกัดและซูม
+	function broadcastMapState() {
+	    window.parent.postMessage({
+	        type: 'MAP_SYNC',
+	        center: map.getCenter(),
+	        zoom: map.getZoom()
+	    }, '*');
+	}
+	
+	// 1. ส่งค่าทันทีที่เริ่มมีการเคลื่อนไหว (จังหวะ Mouse Down/Touch Start)
+	map.on('movestart', broadcastMapState);
+	
+	// 2. ส่งค่าอย่างต่อเนื่องขณะเคลื่อนที่ (ใช้ requestAnimationFrame เพื่อความลื่นไหล)
+	let ticking = false;
 	map.on('move', () => {
 	    if (!ticking) {
 	        window.requestAnimationFrame(() => {
-	            window.parent.postMessage({
-	                type: 'MAP_MOVE',
-	                center: map.getCenter(),
-	                zoom: map.getZoom()
-	            }, '*');
+	            broadcastMapState();
 	            ticking = false;
 	        });
 	        ticking = true;
 	    }
 	});
 	
+	// 3. รับข้อมูลจากเลเยอร์อื่นมาอัปเดตตัวเอง
 	window.addEventListener('message', (event) => {
 	    const { type, center, zoom } = event.data;
 	    if (type === 'SET_VIEW') {
-	        // ปิด animation เพื่อความเร็วสูงสุดในการซิงค์
+	        // อัปเดตทั้งตำแหน่งและระดับการซูมพร้อมกันโดยไม่มี Animation
 	        map.setView(center, zoom, { animate: false });
 	    }
 	});
