@@ -94,9 +94,9 @@ windyInit(options, windyAPI => {
     });
 
     // 3. การตั้งค่าเลเยอร์เริ่มต้น
-    store.set('overlay', 'vvel');
+    store.set('overlay', 'wind');
     store.set('level', '900h');
-    store.set('particlesAnim', 'slow');
+    store.set('particlesAnim', 'intensive');
 
     // 4. ฟังก์ชันสำหรับปุ่มกด (Global Functions)
     window.checkStagnation = (level) => {
