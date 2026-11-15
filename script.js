@@ -144,7 +144,14 @@ windyInit(options, windyAPI => {
 // โค้ดภายในแต่ละ Layer (Iframe)
 windyInit(options, windyAPI => {
     const { map } = windyAPI;
-	
+
+	// เพิ่ม option 'preferCanvas: true' เพื่อบังคับใช้ HTML5 Canvas (ซึ่งใช้ GPU)
+	var map = L.map('map', {
+	    preferCanvas: true,
+	    zoomSnap: 0.5, // ช่วยให้การซูมละเอียดและลื่นขึ้น
+	    zoomDelta: 0.5
+	}).setView([13.7367, 100.5231], 6);
+		
 	// ฟังก์ชันส่งพิกัดและซูม
 	function broadcastMapState() {
 	    window.parent.postMessage({
