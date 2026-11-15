@@ -145,25 +145,20 @@ windyInit(options, windyAPI => {
 windyInit(options, windyAPI => {
     const { map } = windyAPI;
 
-    // 1. ส่งพิกัดออกเมื่อตัวเองขยับ
-    map.on('moveend zoomend', () => {
-        // ส่งเฉพาะเมื่อ User เป็นคนลากเอง (มี Focus)
-        if (document.hasFocus()) {
-            const center = map.getCenter();
-            window.parent.postMessage({
-                type: 'LAYER_MOVE',
-                lat: center.lat,
-                lon: center.lng,
-                zoom: map.getZoom()
-            }, '*');
-        }
-    });
-
-    // 2. รับพิกัดจากหน้าหลักเพื่อปรับตามเพื่อน
-    window.addEventListener('message', (event) => {
-        if (event.data.type === 'MAP_SYNC') {
-            const { lat, lon, zoom } = event.data;
-            map.setView([lat, lon], zoom, { animate: true });
-        }
-    });
+	    // 1. รับคำสั่งเปลี่ยนพิกัดจากไฟล์แม่
+	window.addEventListener('message', (event) => {
+	    const { type, center, zoom } = event.data;
+	    if (type === 'SET_VIEW') {
+	        map.setView(center, zoom, { animate: false });
+	    }
+	});
+	
+	// 2. เมื่อมีการ Move หรือ Zoom ในแผนที่นี้ ให้ส่งพิกัดออกไปบอกไฟล์แม่
+	map.on('moveend zoomend', () => {
+	    window.parent.postMessage({
+	        type: 'MAP_MOVE',
+	        center: map.getCenter(),
+	        zoom: map.getZoom()
+	    }, '*');
+	});
 });
