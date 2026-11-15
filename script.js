@@ -1,7 +1,6 @@
 const options = {
     key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
     verbose: false,
-    // ปรับพิกัดเริ่มต้นให้ตรงกับ Master (basemap.html)
     lat: 13.7367, 
     lon: 100.5231, 
     zoom: 6,
