@@ -1,9 +1,10 @@
 const options = {
     key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
     verbose: false,
-    lat: 13.9918,
-    lon: 110.6035,
-    zoom: 5,
+    // ปรับพิกัดเริ่มต้นให้ตรงกับ Master (basemap.html)
+    lat: 13.7367, 
+    lon: 100.5231, 
+    zoom: 6,
 };
 
 async function getWeatherData(lat, lon, env) {
@@ -26,6 +27,7 @@ async function getWeatherData(lat, lon, env) {
     //key: 'ZbPEsInKrQBIeDWTjxKCUwBLXn6gWldb',
 windyInit(options, windyAPI => {
     const { map, store } = windyAPI;
+	if (!map) return;
     let isDrawingMode = false;
     let tempCircle = null;
 
