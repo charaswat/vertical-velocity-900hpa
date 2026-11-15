@@ -160,27 +160,11 @@ windyInit(options, windyAPI => {
 	        zoom: map.getZoom()
 	    }, '*');
 	}
-	
-	// 1. ส่งค่าทันทีที่เริ่มมีการเคลื่อนไหว (จังหวะ Mouse Down/Touch Start)
-	map.on('movestart', broadcastMapState);
-	
-	// 2. ส่งค่าอย่างต่อเนื่องขณะเคลื่อนที่ (ใช้ requestAnimationFrame เพื่อความลื่นไหล)
-	let ticking = false;
-	map.on('move', () => {
-	    if (!ticking) {
-	        window.requestAnimationFrame(() => {
-	            broadcastMapState();
-	            ticking = false;
-	        });
-	        ticking = true;
-	    }
-	});
-	
-	// 3. รับข้อมูลจากเลเยอร์อื่นมาอัปเดตตัวเอง
+
+	//Slave: รอรับพิกัดและปรับตาม
 	window.addEventListener('message', (event) => {
 	    const { type, center, zoom } = event.data;
-	    if (type === 'SET_VIEW') {
-	        // อัปเดตทั้งตำแหน่งและระดับการซูมพร้อมกันโดยไม่มี Animation
+	    if (type === 'MAP_SYNC') {
 	        map.setView(center, zoom, { animate: false });
 	    }
 	});
