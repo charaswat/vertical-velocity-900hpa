@@ -145,18 +145,25 @@ windyInit(options, windyAPI => {
 windyInit(options, windyAPI => {
     const { map } = windyAPI;
 
-	// เพิ่ม option 'preferCanvas: true' เพื่อบังคับใช้ HTML5 Canvas (ซึ่งใช้ GPU)
-	var map = L.map('map', {
-	    preferCanvas: true,
-	    zoomSnap: 0.5, // ช่วยให้การซูมละเอียดและลื่นขึ้น
-	    zoomDelta: 0.5
-	}).setView([13.7367, 100.5231], 6);
+    // ตรวจสอบว่า map มีตัวตนจริงก่อนทำงานต่อ
+    if (!map) {
+        console.error("Windy Map instance is null or undefined");
+        return;
+    }
 
-	//Slave: รอรับพิกัดและปรับตาม
-	window.addEventListener('message', (event) => {
-	    const { type, center, zoom } = event.data;
-	    if (type === 'MAP_SYNC') {
-	        map.setView(center, zoom, { animate: false });
-	    }
-	});
+    // ตั้งค่าประสิทธิภาพ (เปิด GPU)
+    if (map.options) {
+        map.options.preferCanvas = true;
+        map.options.zoomSnap = 0.5;
+        map.options.zoomDelta = 0.5;
+    }
+
+    // เพิ่ม Listener สำหรับ Master-Slave Sync
+    window.addEventListener('message', (event) => {
+        const { type, center, zoom } = event.data;
+        if (type === 'MAP_SYNC' && center && zoom) {
+            // ใช้ Optional Chaining ป้องกัน error หาก map หายไปภายหลัง
+            map.setView?.(center, zoom, { animate: false });
+        }
+    });
 });
