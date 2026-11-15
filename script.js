@@ -151,15 +151,6 @@ windyInit(options, windyAPI => {
 	    zoomSnap: 0.5, // ช่วยให้การซูมละเอียดและลื่นขึ้น
 	    zoomDelta: 0.5
 	}).setView([13.7367, 100.5231], 6);
-		
-	// ฟังก์ชันส่งพิกัดและซูม
-	function broadcastMapState() {
-	    window.parent.postMessage({
-	        type: 'MAP_SYNC',
-	        center: map.getCenter(),
-	        zoom: map.getZoom()
-	    }, '*');
-	}
 
 	//Slave: รอรับพิกัดและปรับตาม
 	window.addEventListener('message', (event) => {
